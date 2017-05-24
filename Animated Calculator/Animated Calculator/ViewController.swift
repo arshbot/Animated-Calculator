@@ -209,8 +209,26 @@ class ViewController: UIViewController {
     @IBAction func equals(_ sender: Any) {
         var i = 0
         var result = 0
-        while(i<stack.count){
-            
+        while(i+2<stack.count){
+            var n1 = Double(stack[i] as! String)
+            var n2 = Double(stack[i+2] as! String)
+            var res = 0.0
+            switch stack[i+1] as! String {
+                case "/":
+                    res = n1!/n2!
+                    break
+                case "*":
+                    res = n1!*n2!
+                    break
+                case "+":
+                    res = n1!+n2!
+                    break
+                case "-":
+                    res = n1!-n2!
+                    break
+            default:
+                print("Shit as gone down")
+            }
         }
     }
     
