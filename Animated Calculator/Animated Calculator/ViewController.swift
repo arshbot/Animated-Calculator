@@ -35,74 +35,190 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var buttonDivide: UIButton!
     
-    @IBOutlet weak var ButtonMultiply: UIButton!
+    @IBOutlet weak var buttonMultiply: UIButton!
     
-    @IBOutlet weak var ButtonEquals: UIButton!
+    @IBOutlet weak var buttonEquals: UIButton!
     
-    @IBOutlet weak var ButtonPlus: UIButton!
+    @IBOutlet weak var buttonPlus: UIButton!
     
-    @IBOutlet weak var ButtonMinus: UIButton!
+    @IBOutlet weak var buttonMinus: UIButton!
     
-    @IBOutlet weak var ButtonPercentage: UIButton!
+    @IBOutlet weak var buttonPercentage: UIButton!
     
-    @IBOutlet weak var ButtonDelete: UIButton!
+    @IBOutlet weak var buttonDelete: UIButton!
     
-    @IBOutlet weak var OutputScreen: UILabel!
+    @IBOutlet weak var outputScreen: UILabel!
     
-    var stack:String = ""
+    @IBOutlet weak var equation: UILabel!
+    
+    var enteredNum:String = ""
+    var stack:[Any] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        outputScreen.text = "0"
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func constructEquation(){
+        var eq = ""
+        for s in stack{
+            eq += s as! String
+        }
+        equation.text = eq
+    }
 
     //Mark Actions
-    @IBAction func PressedZero(_ sender: Any) {
-        stack.append("0")
-    }
-    @IBAction func PressedOne(_ sender: Any) {
-        stack.append("1")
-    }
-    @IBAction func PressedTwo(_ sender: Any) {
-        stack.append("2")
-    }
-    @IBAction func Pressed3(_ sender: Any) {
-        stack.append("3")
-    }
-    @IBAction func PressedFour(_ sender: Any) {
-        stack.append("4")
-    }
-    @IBAction func PressedFive(_ sender: Any) {
-        stack.append("5")
-    }
-    @IBAction func PressedSix(_ sender: Any) {
-        stack.append("6")
-    }
-    @IBAction func PressedSeven(_ sender: Any) {
-        stack.append("7")
-    }
-    @IBAction func PressedEight(_ sender: Any) {
-        stack.append("8")
-    }
-    @IBAction func PressedNine(_ sender: Any) {
-        stack.append("9")
+    @IBAction func pressedZero(_ sender: Any) {
+        enteredNum.append("0")
+        outputScreen.text = enteredNum
+        
     }
     
-    @IBAction func PressedDecimal(_ sender: Any) {
-        if(stack.contains(".")){
+    @IBAction func pressedOne(_ sender: Any) {
+        enteredNum.append("1")
+        outputScreen.text = enteredNum
+
+    }
+    
+    @IBAction func pressedTwo(_ sender: Any) {
+        enteredNum.append("2")
+        outputScreen.text = enteredNum
+
+    }
+    
+    @IBAction func pressed3(_ sender: Any) {
+        enteredNum.append("3")
+        outputScreen.text = enteredNum
+
+    }
+    
+    @IBAction func pressedFour(_ sender: Any) {
+        enteredNum.append("4")
+        outputScreen.text = enteredNum
+
+    }
+    
+    @IBAction func pressedFive(_ sender: Any) {
+        enteredNum.append("5")
+        outputScreen.text = enteredNum
+
+    }
+    
+    @IBAction func pressedSix(_ sender: Any) {
+        enteredNum.append("6")
+        outputScreen.text = enteredNum
+
+    }
+    
+    @IBAction func pressedSeven(_ sender: Any) {
+        enteredNum.append("7")
+        outputScreen.text = enteredNum
+
+    }
+    
+    @IBAction func pressedEight(_ sender: Any) {
+        enteredNum.append("8")
+        outputScreen.text = enteredNum
+
+    }
+    
+    @IBAction func pressedNine(_ sender: Any) {
+        enteredNum.append("9")
+        outputScreen.text = enteredNum
+
+    }
+    
+    @IBAction func pressedDecimal(_ sender: Any) {
+        if(enteredNum.contains(".")){
             return
         }
         else{
-            stack.append(".")
+            enteredNum.append(".")
         }
     }
     
+    @IBAction func add(_ sender: Any) {
+        if(enteredNum != ""){
+            stack.append(enteredNum)
+            stack.append("+")
+            constructEquation()
+            enteredNum = ""
+
+        }
+        else {
+            return
+        }
+    }
     
+    @IBAction func minus(_ sender: Any) {
+        if(enteredNum != ""){
+            stack.append(enteredNum)
+            stack.append("-")
+            constructEquation()
+            enteredNum = ""
+
+        }
+        else {
+            return
+        }
+    }
     
+    @IBAction func divide(_ sender: Any) {
+        if(enteredNum != ""){
+            stack.append(enteredNum)
+            stack.append("/")
+            constructEquation()
+            enteredNum = ""
+
+        }
+        else {
+            return
+        }
+    }
+
+    @IBAction func multiply(_ sender: Any) {
+        if(enteredNum != ""){
+            stack.append(enteredNum)
+            stack.append("*")
+            constructEquation()
+            enteredNum = ""
+
+        }
+        else {
+            return
+        }
+    }
+    
+    @IBAction func del(_ sender: Any) {
+        if(enteredNum != ""){
+            enteredNum = enteredNum.substring(to: enteredNum.index(before: enteredNum.endIndex))
+            outputScreen.text = enteredNum
+        }
+        else if(stack.count != 0){
+            stack.popLast()
+            constructEquation()
+        }
+    }
+    
+    @IBAction func equals(_ sender: Any) {
+        var i = 0
+        var result = 0
+        while(i<stack.count){
+            
+        }
+    }
+    
+    @IBAction func clear(_ sender: Any) {
+        enteredNum = ""
+        stack.removeAll(keepingCapacity: false)
+        outputScreen.text = ""
+        equation.text = ""
+    }
 }
 
