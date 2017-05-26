@@ -52,12 +52,13 @@ class ViewController: UIViewController {
     @IBOutlet weak var equation: UILabel!
     
     var enteredNum:String = ""
-    var stack:[Any] = []
+    var stack:[String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         outputScreen.text = "0"
+        equation.text = ""
     }
 
     override func didReceiveMemoryWarning() {
@@ -172,7 +173,7 @@ class ViewController: UIViewController {
     @IBAction func divide(_ sender: Any) {
         if(enteredNum != ""){
             stack.append(enteredNum)
-            stack.append("/")
+            stack.append("i")
             constructEquation()
             enteredNum = ""
 
@@ -185,7 +186,7 @@ class ViewController: UIViewController {
     @IBAction func multiply(_ sender: Any) {
         if(enteredNum != ""){
             stack.append(enteredNum)
-            stack.append("*")
+            stack.append("m")
             constructEquation()
             enteredNum = ""
 
@@ -208,12 +209,12 @@ class ViewController: UIViewController {
     
     @IBAction func equals(_ sender: Any) {
         var i = 0
-        var result = 0
+        var result = 0.0
         while(i+2<stack.count){
             var n1 = Double(stack[i] as! String)
             var n2 = Double(stack[i+2] as! String)
             var res = 0.0
-            switch stack[i+1] as! String {
+            switch stack[i+1] {
                 case "/":
                     res = n1!/n2!
                     break
@@ -229,7 +230,13 @@ class ViewController: UIViewController {
             default:
                 print("Shit as gone down")
             }
+            stack[i+2]=String(res)
+            i+=2
         }
+        result = Double(stack.last!)!
+        outputScreen.text = result.description
+        equation.text = ""
+        stack = [String(result)]
     }
     
     @IBAction func clear(_ sender: Any) {
