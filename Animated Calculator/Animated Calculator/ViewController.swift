@@ -76,60 +76,90 @@ class ViewController: UIViewController {
 
     //Mark Actions
     @IBAction func pressedZero(_ sender: Any) {
+        if(stack.count == 1){
+            clearStack()
+        }
         enteredNum.append("0")
         outputScreen.text = enteredNum
         
     }
     
     @IBAction func pressedOne(_ sender: Any) {
+        if(stack.count == 1){
+            clearStack()
+        }
         enteredNum.append("1")
         outputScreen.text = enteredNum
 
     }
     
     @IBAction func pressedTwo(_ sender: Any) {
+        if(stack.count == 1){
+            clearStack()
+        }
         enteredNum.append("2")
         outputScreen.text = enteredNum
 
     }
     
     @IBAction func pressed3(_ sender: Any) {
+        if(stack.count == 1){
+            clearStack()
+        }
         enteredNum.append("3")
         outputScreen.text = enteredNum
 
     }
     
     @IBAction func pressedFour(_ sender: Any) {
+        if(stack.count == 1){
+            clearStack()
+        }
         enteredNum.append("4")
         outputScreen.text = enteredNum
 
     }
     
     @IBAction func pressedFive(_ sender: Any) {
+        if(stack.count == 1){
+            clearStack()
+        }
         enteredNum.append("5")
         outputScreen.text = enteredNum
 
     }
     
     @IBAction func pressedSix(_ sender: Any) {
+        if(stack.count == 1){
+            clearStack()
+        }
         enteredNum.append("6")
         outputScreen.text = enteredNum
 
     }
     
     @IBAction func pressedSeven(_ sender: Any) {
+        if(stack.count == 1){
+            clearStack()
+        }
         enteredNum.append("7")
         outputScreen.text = enteredNum
 
     }
     
     @IBAction func pressedEight(_ sender: Any) {
+        if(stack.count == 1){
+            clearStack()
+        }
         enteredNum.append("8")
         outputScreen.text = enteredNum
 
     }
     
     @IBAction func pressedNine(_ sender: Any) {
+        if(stack.count == 1){
+            clearStack()
+        }
         enteredNum.append("9")
         outputScreen.text = enteredNum
 
@@ -140,14 +170,19 @@ class ViewController: UIViewController {
             return
         }
         else{
+            if(enteredNum == ""){
+                enteredNum.append("0")
+            }
             enteredNum.append(".")
         }
     }
     
     @IBAction func add(_ sender: Any) {
         if(enteredNum != ""){
-            stack.append(enteredNum)
-            stack.append("+")
+            if(stack.count != 1){
+                stack.append(enteredNum)
+            }
+            stack.append("a")
             constructEquation()
             enteredNum = ""
 
@@ -159,8 +194,10 @@ class ViewController: UIViewController {
     
     @IBAction func minus(_ sender: Any) {
         if(enteredNum != ""){
-            stack.append(enteredNum)
-            stack.append("-")
+            if(stack.count != 1){
+                stack.append(enteredNum)
+            }
+            stack.append("mi")
             constructEquation()
             enteredNum = ""
 
@@ -172,8 +209,10 @@ class ViewController: UIViewController {
     
     @IBAction func divide(_ sender: Any) {
         if(enteredNum != ""){
-            stack.append(enteredNum)
-            stack.append("i")
+            if(stack.count != 1){
+                stack.append(enteredNum)
+            }
+            stack.append("d")
             constructEquation()
             enteredNum = ""
 
@@ -185,7 +224,9 @@ class ViewController: UIViewController {
 
     @IBAction func multiply(_ sender: Any) {
         if(enteredNum != ""){
-            stack.append(enteredNum)
+            if(stack.count != 1){
+                stack.append(enteredNum)
+            }
             stack.append("m")
             constructEquation()
             enteredNum = ""
@@ -208,35 +249,47 @@ class ViewController: UIViewController {
     }
     
     @IBAction func equals(_ sender: Any) {
-        var i = 0
-        var result = 0.0
-        while(i+2<stack.count){
-            var n1 = Double(stack[i] as! String)
-            var n2 = Double(stack[i+2] as! String)
-            var res = 0.0
-            switch stack[i+1] {
-                case "/":
-                    res = n1!/n2!
-                    break
-                case "*":
-                    res = n1!*n2!
-                    break
-                case "+":
-                    res = n1!+n2!
-                    break
-                case "-":
-                    res = n1!-n2!
-                    break
-            default:
-                print("Shit as gone down")
+        if(enteredNum != ""){
+            stack.append(enteredNum)
+            enteredNum = ""
+            var i = 0
+            var result = 0.0
+            while(i+2<stack.count){
+                var n1 = Double(stack[i] as! String)
+                var n2 = Double(stack[i+2] as! String)
+                var res = 0.0
+                switch stack[i+1] {
+                    case "d":
+                        res = n1!/n2!
+                        break
+                    case "m":
+                        res = n1!*n2!
+                        break
+                    case "a":
+                        res = n1!+n2!
+                        break
+                    case "mi":
+                        res = n1!-n2!
+                        break
+                default:
+                    print("Shit as gone down")
+                }
+                stack[i+2]=String(res)
+                i+=2
             }
-            stack[i+2]=String(res)
-            i+=2
+            result = Double(stack.last!)!
+            enteredNum = result.description
+            outputScreen.text = result.description
+            equation.text = result.description
+            stack = [result.description]
         }
-        result = Double(stack.last!)!
-        outputScreen.text = result.description
+    }
+    
+    func clearStack(){
+        enteredNum = ""
+        stack.removeAll(keepingCapacity: false)
+        outputScreen.text = ""
         equation.text = ""
-        stack = [String(result)]
     }
     
     @IBAction func clear(_ sender: Any) {
